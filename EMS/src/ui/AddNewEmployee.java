@@ -375,17 +375,18 @@ public class AddNewEmployee extends javax.swing.JDialog {
     }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void txt_nicFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_nicFocusLost
-        if (txt_nic.getText().length() == 10) {
+        try {
             if (Integer.parseInt(txt_nic.getText().substring(2, 3)) > 4) {
                 jLabel_sex.setText("Female");
             } else {
                 jLabel_sex.setText("Male");
             }
-        } else {
+
+        } catch (Exception e) {
             jLabel_sex.setText(null);
             JOptionPane.showMessageDialog(rootPane, "Incorrect NIC number", "Error", JOptionPane.ERROR_MESSAGE);
-        }
 
+        }
     }//GEN-LAST:event_txt_nicFocusLost
 
     private void txt_usernameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_usernameKeyTyped

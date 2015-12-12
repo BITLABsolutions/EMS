@@ -22,16 +22,23 @@ public class UpdateEmployee extends javax.swing.JDialog {
 
     private EmployeeDAO employeeDAO;
     EmployeeView employeeView;
-
+    Employee OldEmployeeObject;
     /**
      * Creates new form NewEmployee
+     * @param parent
+     * @param modal
+     * @param employeeView
+     * @param oldEmployee
      */
-    public UpdateEmployee(java.awt.Frame parent, boolean modal, EmployeeView employeeView) {
+    public UpdateEmployee(java.awt.Frame parent, boolean modal, EmployeeView employeeView, Employee oldEmployee) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         this.employeeView = employeeView;
-
+        this.OldEmployeeObject = oldEmployee;
+        
+        populateGUI();
+        
         rbtnGroup.add(rbtn_normal);
         rbtnGroup.add(rbtn_system_admin);
         rbtnGroup.add(rbtn_technician);
@@ -78,7 +85,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
         txt_street = new javax.swing.JTextField();
         txt_town = new javax.swing.JTextField();
         txt_phone = new javax.swing.JTextField();
-        btn_add = new javax.swing.JButton();
+        btn_update = new javax.swing.JButton();
         btn_cancel = new javax.swing.JButton();
         pfield_new = new javax.swing.JPasswordField();
         jLabel13 = new javax.swing.JLabel();
@@ -145,10 +152,10 @@ public class UpdateEmployee extends javax.swing.JDialog {
             }
         });
 
-        btn_add.setText("Add");
-        btn_add.addActionListener(new java.awt.event.ActionListener() {
+        btn_update.setText("Update");
+        btn_update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_addActionPerformed(evt);
+                btn_updateActionPerformed(evt);
             }
         });
 
@@ -203,8 +210,8 @@ public class UpdateEmployee extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(btn_cancel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -304,7 +311,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
                     .addComponent(txt_phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_add)
+                    .addComponent(btn_update)
                     .addComponent(btn_cancel))
                 .addContainerGap())
         );
@@ -329,13 +336,13 @@ public class UpdateEmployee extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
+    private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
         if (!"".equals(txt_first_name.getText())) {
             if (!"".equals(txt_nic.getText())) {
                 if (!"".equals(txt_username.getText())) {
                     if (pfield_new.getText().equals(pfield_confirm.getText())) {
                         int accessLevel = 0;
-
+                        
                         if (rbtn_normal.isSelected()) {
                             accessLevel = 3;
                         } else if (rbtn_technician.isSelected()) {
@@ -343,10 +350,10 @@ public class UpdateEmployee extends javax.swing.JDialog {
                         } else if (rbtn_system_admin.isSelected()) {
                             accessLevel = 1;
                         }
-                        Employee newEmployee = new Employee(0, txt_first_name.getText(), txt_last_name.getText(), txt_nic.getText(), txt_username.getText(), pfield_new.getText(), accessLevel, txt_street.getText(), txt_town.getText(), txt_phone.getText(), jLabel_sex.getText());
+                        Employee UpdatedEmployee = new Employee(OldEmployeeObject.getEmp_id(), txt_first_name.getText(), txt_last_name.getText(), txt_nic.getText(), txt_username.getText(), pfield_new.getText(), accessLevel, txt_street.getText(), txt_town.getText(), txt_phone.getText(), jLabel_sex.getText());
 
                         try {
-                            employeeDAO.addEmployee(newEmployee);
+                            employeeDAO.updateEmployee(UpdatedEmployee, OldEmployeeObject.getEmp_id());
                             this.dispose();
                         } catch (SQLException ex) {
                             JOptionPane.showMessageDialog(rootPane, "Something is wrong. Check again!", "Cannot add", JOptionPane.ERROR_MESSAGE);
@@ -366,7 +373,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(rootPane, "Fill first name", "Error", JOptionPane.ERROR_MESSAGE);
         }
         employeeView.refreshGUI();
-    }//GEN-LAST:event_btn_addActionPerformed
+    }//GEN-LAST:event_btn_updateActionPerformed
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         if (JOptionPane.showConfirmDialog(rootPane, "Added data will not be saved", "Warning!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
@@ -375,17 +382,18 @@ public class UpdateEmployee extends javax.swing.JDialog {
     }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void txt_nicFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_nicFocusLost
-        if (txt_nic.getText().length() == 10) {
+        try {
             if (Integer.parseInt(txt_nic.getText().substring(2, 3)) > 4) {
                 jLabel_sex.setText("Female");
             } else {
                 jLabel_sex.setText("Male");
             }
-        } else {
+
+        } catch (Exception e) {
             jLabel_sex.setText(null);
             JOptionPane.showMessageDialog(rootPane, "Incorrect NIC number", "Error", JOptionPane.ERROR_MESSAGE);
-        }
 
+        }
     }//GEN-LAST:event_txt_nicFocusLost
 
     private void txt_usernameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_usernameKeyTyped
@@ -398,7 +406,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
 
     private void txt_usernameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_usernameKeyReleased
         try {
-            if (employeeDAO.CheckUsernameAvailability(txt_username.getText())) {
+            if (employeeDAO.CheckUsernameAvailability(txt_username.getText()) & !txt_username.getText().equals(OldEmployeeObject.getUsername())) {
                 label_username.setText("Username NOT available");
             } else {
                 label_username.setText("Username available");
@@ -408,9 +416,34 @@ public class UpdateEmployee extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txt_usernameKeyReleased
 
+    
+    public void populateGUI(){
+        txt_first_name.setText(OldEmployeeObject.getFirst_name());
+        txt_last_name.setText(OldEmployeeObject.getLast_name());
+        txt_nic.setText(OldEmployeeObject.getNic());
+        txt_nicFocusLost(null);
+        txt_username.setText(OldEmployeeObject.getUsername());
+        pfield_new.setText(OldEmployeeObject.getPassword());
+        pfield_confirm.setText(OldEmployeeObject.getPassword());
+        int accesslevel = OldEmployeeObject.getAccess_level();
+        if(accesslevel==3){
+            rbtn_normal.setSelected(true);
+        }
+        else if(accesslevel == 2){
+            rbtn_technician.setSelected(true);
+        }
+        else if(accesslevel == 1){
+            rbtn_system_admin.setSelected(true);
+        }
+        txt_street.setText(OldEmployeeObject.getStreet());
+        txt_town.setText(OldEmployeeObject.getTown());
+        txt_phone.setText(OldEmployeeObject.getPhone());
+    }
+    
+    
     private void txt_nicKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nicKeyReleased
         try {
-            if (employeeDAO.CheckNICAvailability(txt_nic.getText()) & !"".equals(txt_nic.getText())) {
+            if (employeeDAO.CheckNICAvailability(txt_nic.getText()) & !txt_nic.getText().equals(OldEmployeeObject.getNic())) {
                 label_nic.setText("Already added");
             } else {
                 label_nic.setText(null);
@@ -456,7 +489,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(() -> {
-            UpdateEmployee dialog = new UpdateEmployee(new javax.swing.JFrame(), true, null);
+            UpdateEmployee dialog = new UpdateEmployee(new javax.swing.JFrame(), true, null, new Employee(10, "chan", "karu", "933000486k", "kmvh", "aaa", 2, "ban", "mah", "0717899367", "Male"));
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosing(java.awt.event.WindowEvent e) {
@@ -468,8 +501,8 @@ public class UpdateEmployee extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_add;
     private javax.swing.JButton btn_cancel;
+    private javax.swing.JButton btn_update;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

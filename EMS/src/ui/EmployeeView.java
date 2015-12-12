@@ -337,15 +337,8 @@ public class EmployeeView extends javax.swing.JDialog {
         // get the selected current Employee
         Employee tempEmployee = (Employee) table.getValueAt(row, EmployeeTableModel.OBJECT_COL);
 
-        // open the update dialog box (same as add new employee)
-        /*  try {
-            //create dialog
-            AddNewEmployee dialog = new AddNewEmployee(this, rootPaneCheckingEnabled, employeeDAO, tempEmployee, true, EmployeeView.this, myConn);
-            // show dialog
-            dialog.setVisible(true);
-        } catch (IOException | SQLException ex) {
-            Logger.getLogger(EmployeeView.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        UpdateEmployee dialog = new UpdateEmployee(null, rootPaneCheckingEnabled, this, tempEmployee);
+        dialog.setVisible(true);
     }//GEN-LAST:event_btnUpdateContactActionPerformed
 
     private void btnDeleteContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteContactActionPerformed

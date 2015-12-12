@@ -153,28 +153,28 @@ public class EmployeeDAO {
      * update person
      *
      * @param employee
-     * @param previousNIC
+     * @param empID
      * @throws java.sql.SQLException
      */
-    public void updateEmployee(Employee employee, int previousNIC) throws SQLException {
+    public void updateEmployee(Employee employee, int empID) throws SQLException {
         PreparedStatement myStmt = null;
         try {
             //prepare the statement
-            myStmt = myConn.prepareStatement("update employee set emp_id = ?, first_name = ?, last_name = ?, nic = ?, username = ?, password = ?, access_level = ?, street = ?, town = ?, phone = ?, sex = ? where emp_id = ? ");
+            myStmt = myConn.prepareStatement("update employee set first_name = ?, last_name = ?, nic = ?, username = ?, password = ?, access_level = ?, street = ?, town = ?, phone = ?, sex = ? where emp_id = ? ");
 
             // set params
-            myStmt.setInt(1, employee.getEmp_id());
-            myStmt.setString(2, employee.getFirst_name());
-            myStmt.setString(3, employee.getLast_name());
-            myStmt.setString(4, employee.getNic());
-            myStmt.setString(5, employee.getUsername());
-            myStmt.setString(6, employee.getPassword());
-            myStmt.setInt(7, employee.getAccess_level());
-            myStmt.setString(8, employee.getStreet());
-            myStmt.setString(9, employee.getTown());
-            myStmt.setString(10, employee.getPhone());
-            myStmt.setString(11, employee.getSex());
-            myStmt.setInt(12, previousNIC);
+
+            myStmt.setString(1, employee.getFirst_name());
+            myStmt.setString(2, employee.getLast_name());
+            myStmt.setString(3, employee.getNic());
+            myStmt.setString(4, employee.getUsername());
+            myStmt.setString(5, employee.getPassword());
+            myStmt.setInt(6, employee.getAccess_level());
+            myStmt.setString(7, employee.getStreet());
+            myStmt.setString(8, employee.getTown());
+            myStmt.setString(9, employee.getPhone());
+            myStmt.setString(10, employee.getSex());
+            myStmt.setInt(11, empID);
             //execute statement
             myStmt.executeUpdate();
         } finally {
