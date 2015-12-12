@@ -47,8 +47,8 @@ public class SensorView extends javax.swing.JDialog {
                
         jLabel2.setVisible(false);
         jLabel3.setVisible(false);
-        txtSearch1.setVisible(false);
         txtSearch2.setVisible(false);
+        txtSearch1.setVisible(false);
         
         //ImageIcon img = new ImageIcon(this.getClass().getResource("/pics/team2.png"));
         //this.setIconImage(img.getImage());
@@ -98,8 +98,8 @@ public class SensorView extends javax.swing.JDialog {
         comboPara = new javax.swing.JComboBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtQuickPane = new javax.swing.JEditorPane();
-        txtSearch1 = new javax.swing.JTextField();
         txtSearch2 = new javax.swing.JTextField();
+        txtSearch1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
@@ -281,10 +281,10 @@ public class SensorView extends javax.swing.JDialog {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(230, 230, 230)
-                                        .addComponent(txtSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtSearch2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(53, 53, 53)
-                                        .addComponent(txtSearch2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(8, 8, 8)
                                         .addComponent(jLabel3))
@@ -317,8 +317,8 @@ public class SensorView extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtSearch2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(4, 4, 4)
@@ -346,17 +346,23 @@ public class SensorView extends javax.swing.JDialog {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
 
         try {
-            // Get keyWord to search from the text field
-            String keyWord = txtSearch.getText();
+            
             // get what to search from combo box
             String searchPara = comboPara.getSelectedItem().toString();
 
             List<Sensor> sensor = null;
 
             // Call DAO and get sensors relevent to the "searchpara"
-            if (keyWord != null && keyWord.trim().length() > 0) {
-              //  sensor = sensorDAO.searchSensor(keyWord, searchPara);
+            if(searchPara.equals("Location")){
+                
+                sensor = sensorDAO.searchSensor(txtSearch1.getText()+":"+txtSearch2.getText(), searchPara);
+            }
+            else if (txtSearch.getText() != null && txtSearch.getText().trim().length() > 0) {
+                // Get keyWord to search from the text field
+                
+                sensor = sensorDAO.searchSensor(txtSearch.getText(), searchPara);
             } else {
+              
                 // If last name is empty, then get all sensors
                 sensor = sensorDAO.getAllSensors();
             }
@@ -368,8 +374,8 @@ public class SensorView extends javax.swing.JDialog {
                 table.setModel(model);
                 // new update*****************************************************************************************************by Malith
                 String temp = "<html><font  size=\"4\" color=\"red\"><center>No records!</center></font>";
-                if (keyWord != null & !"".equals(keyWord)) {
-                    temp = "<html><font  size=\"4\" color=\"red\"><center>No records for \"" + keyWord + "\" under \"" + searchPara + "\"</center></font>";
+                if (txtSearch.getText() != null & !"".equals(txtSearch.getText())) {
+                    temp = "<html><font  size=\"4\" color=\"red\"><center>No records for \"" + txtSearch.getText() + "\" under \"" + searchPara + "\"</center></font>";
                 }
                 txtQuickPane.setText(temp);
                 return;
@@ -414,19 +420,23 @@ public class SensorView extends javax.swing.JDialog {
     }//GEN-LAST:event_btnUpdateContactActionPerformed
 
     private void btnDeleteContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteContactActionPerformed
-        int row = table.getSelectedRow();
-        if (row < 0) {
-            JOptionPane.showMessageDialog(rootPane, "You must select a sensor", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+        try {
+            int row = table.getSelectedRow();
+            if (row < 0) {
+                JOptionPane.showMessageDialog(rootPane, "You must select a sensor", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            int response = JOptionPane.showConfirmDialog(rootPane, "This will delete this Sensor!!!", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (response != JOptionPane.YES_OPTION) {
+                return;
+            }
+            Sensor tempSensor = (Sensor) table.getValueAt(row, SensorTableModel.OBJECT_COL);
+            sensorDAO.deleteSensor(tempSensor.getSensor_id());
+            refreshGUI();
+            JOptionPane.showMessageDialog(SensorView.this, "Sensor deleted successfully", "Sensor deleted", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException ex) {
+            Logger.getLogger(SensorView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        int response = JOptionPane.showConfirmDialog(rootPane, "This will delete this Sensor!!!", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (response != JOptionPane.YES_OPTION) {
-            return;
-        }
-        Sensor tempSensor = (Sensor) table.getValueAt(row, SensorTableModel.OBJECT_COL);
-      //  sensorDAO.deleteSensor(tempSensor.getSensor_id());
-        refreshGUI();
-        JOptionPane.showMessageDialog(SensorView.this, "Sensor deleted successfully", "Sensor deleted", JOptionPane.INFORMATION_MESSAGE);
         
         
     }//GEN-LAST:event_btnDeleteContactActionPerformed
@@ -442,16 +452,16 @@ public class SensorView extends javax.swing.JDialog {
             
             jLabel2.setVisible(true);
             jLabel3.setVisible(true);
-            txtSearch1.setVisible(true);
             txtSearch2.setVisible(true);
+            txtSearch1.setVisible(true);
         }
         else{            
             txtSearch.setVisible(true);
             
             jLabel2.setVisible(false);
             jLabel3.setVisible(false);
-            txtSearch1.setVisible(false);
             txtSearch2.setVisible(false);
+            txtSearch1.setVisible(false);
     }
     }//GEN-LAST:event_comboParaItemStateChanged
 

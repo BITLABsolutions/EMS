@@ -65,38 +65,59 @@ public class SensorDAO {
         return result_list;
     }
     
-    public List<Sensor> getSensorBySerialNumber(String keyWord,String searchPara) throws SQLException{
+    public List<Sensor> searchSensor(String keyWord,String searchPara) throws SQLException{
         List<Sensor> list = new ArrayList<>();
         PreparedStatement myStmt = null;
         ResultSet myRs = null;
         String query;
         try {
-            keyWord = "%" + keyWord + "%";
             switch (searchPara) {
           
-                case "serialNumber":
+                case "Serial number":
+                    keyWord = "%" + keyWord + "%";
                     query = "select * from sensor where serial_no like ?";
                     myStmt = myCon.prepareStatement(query);
                     myStmt.setString(1, keyWord);
                     break;
-                case "sensor_id":
-                    query = "select * from employee where sensor_id like ?";
+                case "Sensor ID":
+                    keyWord = "%" + keyWord + "%";
+                    query = "select * from sensor where sensor_id like ?";
                     myStmt = myCon.prepareStatement(query);
                     myStmt.setString(1, keyWord);
                     break;
                                
-                case "property":
-                    query = "select * from employee where measure_types like ?";
+                case "Property messured":
+                    keyWord = "%" + keyWord + "%";
+                    query = "select * from sensor where measure_types like ?";
                     myStmt = myCon.prepareStatement(query);
                     myStmt.setString(1, keyWord);
                     break;
-                default:
-                   query = "select * from employee where emp_id like ? or first_name like ? or last_name like ? or nic like ? or username like ? or street like ? or town like ? or phone like ?";
-                    myStmt = myCon.prepareStatement(query);
-                    //set parameters
-                    for (int i = 1; i < 9; i++) {
-                        myStmt.setString(i, keyWord);
-                    }
+                case "Location":
+                   //query = "select * from sensor where sensor_id in(select sensor_id from location where street like ?)";
+                   String[] arr=keyWord.split(":");
+                   if(arr.length==2){
+                       query = "select * from sensor where sensor_id in(select sensor_id from location where street like ? or nearest_junction like ?)";
+                       myStmt = myCon.prepareStatement(query);
+                       String keyWord1="%"+arr[0]+"%";
+                       String keyWord2="%"+arr[1]+"%";
+                       myStmt.setString(1, keyWord1);
+                       myStmt.setString(2, keyWord2);
+                   }
+                   else if(keyWord.equals(":"+arr[0]) && arr.length==1){
+                       keyWord = "%" + arr[0] + "%";
+                       query = "select * from sensor where sensor_id in(select sensor_id from location where nearest_junction like ?)";
+                       myStmt = myCon.prepareStatement(query);
+                       myStmt.setString(1, keyWord);
+                   }
+                   else if(keyWord.equals(arr[0]+":") && arr.length==1){
+                       keyWord="%"+arr[0]+"%";
+                       query = "select * from sensor where sensor_id in(select sensor_id from location where street like ?)";
+                       myStmt = myCon.prepareStatement(query);
+                       myStmt.setString(1, keyWord);
+                   }
+                   
+                    
+                    
             }
 
             // execute statement
