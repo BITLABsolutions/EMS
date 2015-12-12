@@ -22,7 +22,7 @@ public class testing {
         MaintainsDAO maintainsDAO=new MaintainsDAO(dbConnector.getMyConn());
         Date date=java.util.Calendar.getInstance().getTime();
         
-        Maintain maintain=new Maintain(2,2,date,new java.sql.Time(date.getTime()),"");
+        Maintain maintain=new Maintain(2,"2",date,new java.sql.Time(date.getTime()),"");
         maintainsDAO.insertMaintanaceRecord(maintain);
     }
     

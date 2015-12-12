@@ -48,14 +48,34 @@ public class LocationDAO {
         return result_list;
     }
     
-    public Location getLocationOfASensor(int sensor_id) throws SQLException{
+    public void insertLocationOfSensor(Location location) throws SQLException{
+        PreparedStatement myStat = null;
+        try {
+            
+            myStat = myCon.prepareStatement("insert into location (sensor_id,street,nearest_junction,longitude,latitude) values (?,?,?,?,?)");
+            setParams(location, myStat);
+            myStat.executeUpdate();
+        } finally {
+            close(myStat);
+        }
+    }
+    
+    public PreparedStatement setParams(Location location, PreparedStatement myStat) throws SQLException {
+        myStat.setString(1, location.getSensor_id());
+        myStat.setString(2, location.getStreet());
+        myStat.setString(3, location.getNearest_junction());
+        myStat.setDouble(4, location.getLongitude());
+        myStat.setDouble(5, location.getLattitude());
+        return myStat;
+    }
+    public Location getLocationOfASensor(String sensor_id) throws SQLException{
         PreparedStatement myStat = null;
         ResultSet result = null;
         Location location=null;
         try{
             String query="Select * from location where sensor_id=?";
             myStat=myCon.prepareStatement(query);
-            myStat.setInt(1, sensor_id);
+            myStat.setString(1, sensor_id);
             result=myStat.executeQuery();
             if(result.next()){
                 location =convertRowToALocation(result);
@@ -67,17 +87,16 @@ public class LocationDAO {
         return location;
     }
     
-    public List<Location> getSensorsInALocation(float longitude,float latitude) throws SQLException{
+    public List<Location> getSensorsInALocation(double longitude,double latitude) throws SQLException{
         PreparedStatement myStat = null;
         List<Location> result_list = new ArrayList<>();
         ResultSet result = null;
-        BigDecimal longitude1=BigDecimal.valueOf(longitude);
-        BigDecimal latitude1=BigDecimal.valueOf(latitude);
+        
         try{
             String query="Select * from location where longitude=? and latitude=?";
             myStat=myCon.prepareStatement(query);
-            myStat.setBigDecimal(1, longitude1);
-            myStat.setBigDecimal(2, latitude1);
+            myStat.setDouble(1, longitude);
+            myStat.setDouble(2, latitude);
             result=myStat.executeQuery();
             while(result.next()){
                 Location temp=convertRowToALocation(result);
@@ -90,14 +109,14 @@ public class LocationDAO {
         return result_list;
     }
     
-    public String getNearestJunction(int sensor_id) throws SQLException{
+    public String getNearestJunction(String sensor_id) throws SQLException{
         PreparedStatement myStat = null;
         ResultSet result = null;
         String nearest_junction=null;
         try{
             String query="Select nearest_junction from location where sensor_id=?";
             myStat=myCon.prepareStatement(query);
-            myStat.setInt(1, sensor_id);
+            myStat.setString(1, sensor_id);
             result=myStat.executeQuery();
             if(result.next()){
                 nearest_junction=result.getString(1);
@@ -110,11 +129,11 @@ public class LocationDAO {
     }
 
     public Location convertRowToALocation(ResultSet result) throws SQLException {
-        int sensor_id=result.getInt(1);
+        String sensor_id=result.getString(1);
         String street=result.getString(2);
         String nearest_junction=result.getString(3);
-        float longitude=result.getBigDecimal(4).floatValue();
-        float lattitude=result.getBigDecimal(5).floatValue();
+        double longitude=result.getDouble(4);
+        double lattitude=result.getDouble(5);
         return new Location(sensor_id, street, nearest_junction, longitude, lattitude);
         
     }

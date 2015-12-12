@@ -1,5 +1,8 @@
 CREATE DATABASE  IF NOT EXISTS `ems` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `ems`;
+
+
+
 -- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
 -- Host: localhost    Database: ems
@@ -18,38 +21,30 @@ USE `ems`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `employee`
+-- Table structure for table `sensor`
 --
 
-DROP TABLE IF EXISTS `employee`;
+DROP TABLE IF EXISTS `sensor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `employee` (
-  `emp_id` int(11) NOT NULL,
-  `first_name` varchar(50) DEFAULT NULL,
-  `last_name` varchar(100) DEFAULT NULL,
-  `nic` varchar(12) NOT NULL,
-  `username` varchar(45) NOT NULL,
-  `password` varchar(100) DEFAULT NULL,
-  `access_level` int(11) NOT NULL,
-  `street` varchar(100) DEFAULT NULL,
-  `town` varchar(100) DEFAULT NULL,
-  `phone` varchar(12) DEFAULT NULL,
-  PRIMARY KEY (`emp_id`),
-  UNIQUE KEY `emp_id_UNIQUE` (`emp_id`),
-  UNIQUE KEY `nic_UNIQUE` (`nic`),
-  UNIQUE KEY `username_UNIQUE` (`username`)
+CREATE TABLE `sensor` (
+  `sensor_id` varchar(10) NOT NULL,
+  `serial_no` varchar(45) NOT NULL,
+  `installed_date` date DEFAULT NULL,
+  `measure_types` varchar(45) NOT NULL,
+  PRIMARY KEY (`sensor_id`,`serial_no`),
+  UNIQUE KEY `sensor_id_UNIQUE` (`sensor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `employee`
+-- Dumping data for table `sensor`
 --
 
-LOCK TABLES `employee` WRITE;
-/*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` (`emp_id`, `first_name`, `last_name`, `nic`, `username`, `password`, `access_level`, `street`, `town`, `phone`) VALUES (1,'Malith','Thilakarathne','931222058v','malit.tilak','1234',1,'Agalawaththa','Matugama','0777203574');
-/*!40000 ALTER TABLE `employee` ENABLE KEYS */;
+LOCK TABLES `sensor` WRITE;
+/*!40000 ALTER TABLE `sensor` DISABLE KEYS */;
+INSERT INTO `sensor` (`sensor_id`, `serial_no`, `installed_date`, `measure_types`) VALUES ('2','12345','2015-12-12','temperature'),('3','123545','2015-12-12','temperature'),('6','123445','2015-12-12','temperature');
+/*!40000 ALTER TABLE `sensor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -61,4 +56,13 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-10  9:42:12
+-- Dump completed on 2015-12-12 19:39:05
+DELIMITER $$
+CREATE DEFINER = CURRENT_USER TRIGGER `ems`.`sensor_BEFORE_INSERT` BEFORE INSERT ON `sensor` FOR EACH ROW
+BEGIN
+	IF NOT (NEW.measure_types = "temperature" or  NEW.measure_types = "rainfall" or NEW.measure_types = "wind" or NEW.measure_types = "quality_of_air") THEN
+        SIGNAL SQLSTATE '22023'
+		SET MESSAGE_TEXT = 'invalid value for sensor type, it should be temperature, rainfall, wind or quality_of_air';
+    END IF;
+END$$
+DELIMITER ;

@@ -77,25 +77,28 @@ public class EmployeeDAO {
         ResultSet myRs = null;
         String query;
         try {
-            keyWord += "%";
+            keyWord = "%" + keyWord + "%";
             switch (searchPara) {
           
-                //if "keyWord" in any field in the record, return them
-                case "All":
-                    query = "select * from employee where emp_id like ? or first_name like ? or last_name like ? or nic like ? or username like ? or street like ? or town like ? or phone like ?";
+                case "Name":
+                    query = "select * from employee where first_name like ? or last_name like ?";
+                    myStmt = myConn.prepareStatement(query);
+                    myStmt.setString(1, keyWord);
+                    myStmt.setString(2, keyWord);
+                    break;
+                case "phone":
+                    query = "select * from employee where phone like ?";
+                    myStmt = myConn.prepareStatement(query);
+                    myStmt.setString(1, keyWord);
+                    break;
+                                                      
+                default:
+                   query = "select * from employee where emp_id like ? or first_name like ? or last_name like ? or nic like ? or username like ? or street like ? or town like ? or phone like ?";
                     myStmt = myConn.prepareStatement(query);
                     //set parameters
                     for (int i = 1; i < 9; i++) {
                         myStmt.setString(i, keyWord);
                     }
-                    break;
-                    
-                default:
-                    query = "select * from employee where ? like ?";
-                    myStmt = myConn.prepareStatement(query);
-                    myStmt.setString(1, searchPara);
-                    myStmt.setString(2, keyWord);
-
             }
 
             // execute statement
@@ -146,7 +149,7 @@ public class EmployeeDAO {
         PreparedStatement myStmt = null;
         try {
             //prepare the statement
-            myStmt = myConn.prepareStatement("update employee set emp_id = ?, first_name = ?, last_name = ?, nic = ?, username = ?, password = ?, access_level = ?, street = ?, town = ?, phone = ?, sex = ? where nic = ? ");
+            myStmt = myConn.prepareStatement("update employee set emp_id = ?, first_name = ?, last_name = ?, nic = ?, username = ?, password = ?, access_level = ?, street = ?, town = ?, phone = ?, sex = ? where emp_id = ? ");
 
             // set params
             myStmt = setParams(myStmt, employee);

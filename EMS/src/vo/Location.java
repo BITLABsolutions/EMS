@@ -5,21 +5,21 @@
  */
 package vo;
 
-import java.math.BigDecimal;
+
 
 /**
  *
  * @author prabath s
  */
 public class Location {
-    private int sensor_id;
+    private String sensor_id;
     private String street;
     private String nearest_junction;
-    private float longitude;
-    private float lattitude;
+    private double longitude;
+    private double lattitude;
 
     
-    public Location(int sensor_id, String street, String nearest_junction, float longitude, float lattitude) {
+    public Location(String sensor_id, String street, String nearest_junction, double longitude, double lattitude) {
         this.sensor_id = sensor_id;
         this.street = street;
         this.nearest_junction = nearest_junction;
@@ -27,11 +27,11 @@ public class Location {
         this.lattitude = lattitude;
     }
     
-    public int getSensor_id() {
+    public String getSensor_id() {
         return sensor_id;
     }
 
-    public void setSensor_id(int sensor_id) {
+    public void setSensor_id(String sensor_id) {
         this.sensor_id = sensor_id;
     }
 
@@ -51,26 +51,25 @@ public class Location {
         this.nearest_junction = nearest_junction;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public float getLattitude() {
+    public double getLattitude() {
         return lattitude;
     }
 
-    public void setLattitude(float lattitude) {
+    public void setLattitude(double lattitude) {
         this.lattitude = lattitude;
     }
 
     
-    public BigDecimal getBGValue(float x){
-        return BigDecimal.valueOf(x);
-    }
+    
+    
     
     
 }

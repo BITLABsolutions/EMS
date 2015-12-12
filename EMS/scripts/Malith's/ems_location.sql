@@ -1,10 +1,12 @@
-CREATE DATABASE  IF NOT EXISTS `ems` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE  IF NOT EXISTS `ems` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `ems`;
--- MySQL dump 10.13  Distrib 5.6.23, for Win64 (x86_64)
+
+
+-- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
 -- Host: localhost    Database: ems
 -- ------------------------------------------------------
--- Server version	5.6.17
+-- Server version	5.6.26-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,30 +20,31 @@ USE `ems`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `maintain`
+-- Table structure for table `location`
 --
 
-DROP TABLE IF EXISTS `maintain`;
+DROP TABLE IF EXISTS `location`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `maintain` (
-  `emp_id` int(11) NOT NULL,
+CREATE TABLE `location` (
   `sensor_id` varchar(20) NOT NULL,
-  `rep_date` date NOT NULL,
-  `rep_time` time NOT NULL,
-  `rep_detail` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`emp_id`,`sensor_id`,`rep_date`,`rep_time`)
+  `street` varchar(45) DEFAULT NULL,
+  `nearest_junction` varchar(45) DEFAULT NULL,
+  `longitude` double NOT NULL,
+  `latitude` double NOT NULL,
+  PRIMARY KEY (`sensor_id`,`longitude`,`latitude`),
+  UNIQUE KEY `sensor_id_UNIQUE` (`sensor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `maintain`
+-- Dumping data for table `location`
 --
 
-LOCK TABLES `maintain` WRITE;
-/*!40000 ALTER TABLE `maintain` DISABLE KEYS */;
-INSERT INTO `maintain` (`emp_id`, `sensor_id`, `rep_date`, `rep_time`, `rep_detail`) VALUES (2,'2','2015-12-10','21:15:51','');
-/*!40000 ALTER TABLE `maintain` ENABLE KEYS */;
+LOCK TABLES `location` WRITE;
+/*!40000 ALTER TABLE `location` DISABLE KEYS */;
+INSERT INTO `location` (`sensor_id`, `street`, `nearest_junction`, `longitude`, `latitude`) VALUES ('2','unionPlace','Lipton',44,56),('3','slave island','navaloka',45,65),('6','main','maradana',54,5);
+/*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-12 12:43:36
+-- Dump completed on 2015-12-12 19:39:05

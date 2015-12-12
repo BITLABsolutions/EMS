@@ -16,12 +16,12 @@ import java.util.Date;
  */
 public class Maintain {
     private int employee_id;
-    private int sensor_id;
+    private String sensor_id;
     private Date rep_date;
     private Time rep_time;
     private String rep_details;
 
-    public Maintain(int employee_id, int sensor_id, Date rep_date, Time rep_time, String varchar) {
+    public Maintain(int employee_id, String sensor_id, Date rep_date, Time rep_time, String varchar) {
         this.employee_id = employee_id;
         this.sensor_id = sensor_id;
         this.rep_date = rep_date;
@@ -37,11 +37,11 @@ public class Maintain {
         this.employee_id = employee_id;
     }
 
-    public int getSensor_id() {
+    public String getSensor_id() {
         return sensor_id;
     }
 
-    public void setSensor_id(int sensor_id) {
+    public void setSensor_id(String sensor_id) {
         this.sensor_id = sensor_id;
     }
 

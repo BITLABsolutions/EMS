@@ -5,18 +5,37 @@
  */
 package ui;
 
+import common.DbConnector;
+import dao.EmployeeDAO;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Malith
  */
 public class NewEmployee extends javax.swing.JDialog {
 
+    private EmployeeDAO employeeDAO;
     /**
      * Creates new form NewEmployee
      */
     public NewEmployee(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        rbtnGroup.add(rbtn_normal);
+        rbtnGroup.add(rbtn_system_admin);
+        rbtnGroup.add(rbtn_technician);
+        
+        try {
+            employeeDAO = new EmployeeDAO(DbConnector.getInstance().getMyConn());
+            
+        } catch (IOException | SQLException ex) {
+            Logger.getLogger(NewEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
@@ -28,6 +47,7 @@ public class NewEmployee extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        rbtnGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -309,6 +329,7 @@ public class NewEmployee extends javax.swing.JDialog {
     private javax.swing.JLabel lbl_emp_id;
     private javax.swing.JPasswordField pfield_confirm;
     private javax.swing.JPasswordField pfield_new;
+    private javax.swing.ButtonGroup rbtnGroup;
     private javax.swing.JRadioButton rbtn_normal;
     private javax.swing.JRadioButton rbtn_system_admin;
     private javax.swing.JRadioButton rbtn_technician;

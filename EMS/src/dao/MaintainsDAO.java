@@ -30,7 +30,7 @@ public class MaintainsDAO {
     public void insertMaintanaceRecord(Maintain maintain) throws SQLException {
         PreparedStatement myStat = null;
         try {
-            myStat = myCon.prepareStatement("insert into maintains (emp_id,sensor_id,rep_date,rep_time,rep_detail) values (?,?,?,?,?)");
+            myStat = myCon.prepareStatement("insert into maintain (emp_id,sensor_id,rep_date,rep_time,rep_detail) values (?,?,?,?,?)");
             setParams(maintain, myStat);
             myStat.executeUpdate();
         } finally {
@@ -59,7 +59,7 @@ public class MaintainsDAO {
 
     }
 
-    public Maintain getParticularMaintainRecord(int emp_id, int sensor_id, java.util.Date date, java.sql.Time time) throws SQLException {
+    public Maintain getParticularMaintainRecord(int emp_id, String sensor_id, java.util.Date date, java.sql.Time time) throws SQLException {
         PreparedStatement myStat = null;
         ResultSet result = null;
         Maintain maintain = null;
@@ -69,7 +69,7 @@ public class MaintainsDAO {
             myStat.setDate(1, new java.sql.Date(date.getTime()));
             myStat.setTime(2, time);
             myStat.setInt(3, emp_id);
-            myStat.setInt(4, sensor_id);
+            myStat.setString(4, sensor_id);
             result = myStat.executeQuery();
             while (result.next()) {
                 Maintain temp = convertRowToObject(result);
@@ -81,7 +81,7 @@ public class MaintainsDAO {
         }
     }
 
-    public Maintain getParticularMaintainRecord(int sensor_id, java.util.Date date, java.sql.Time time) throws SQLException {
+    public Maintain getParticularMaintainRecord(String sensor_id, java.util.Date date, java.sql.Time time) throws SQLException {
         PreparedStatement myStat = null;
         ResultSet result = null;
         Maintain maintain = null;
@@ -90,7 +90,7 @@ public class MaintainsDAO {
             myStat = myCon.prepareStatement(query);
             myStat.setDate(1, new java.sql.Date(date.getTime()));
             myStat.setTime(2, time);
-            myStat.setInt(3, sensor_id);
+            myStat.setString(3, sensor_id);
             result = myStat.executeQuery();
             while (result.next()) {
                 Maintain temp = convertRowToObject(result);
@@ -121,7 +121,7 @@ public class MaintainsDAO {
         }
     }
 
-    public List<Maintain> getMaintaienaceRecordsOfASensor(int sensor_id) throws SQLException {
+    public List<Maintain> getMaintaienaceRecordsOfASensor(String sensor_id) throws SQLException {
 
         PreparedStatement myStat = null;
         ResultSet result = null;
@@ -129,7 +129,7 @@ public class MaintainsDAO {
         try {
             String query = "Select * from maintain where sensor_id=?";
             myStat = myCon.prepareStatement(query);
-            myStat.setInt(1, sensor_id);
+            myStat.setString(1, sensor_id);
             result = myStat.executeQuery();
             while (result.next()) {
                 Maintain temp = convertRowToObject(result);
@@ -161,7 +161,7 @@ public class MaintainsDAO {
 
     public PreparedStatement setParams(Maintain maintain, PreparedStatement myStat) throws SQLException {
         myStat.setInt(1, maintain.getEmployee_id());
-        myStat.setInt(2, maintain.getSensor_id());
+        myStat.setString(2, maintain.getSensor_id());
         myStat.setDate(3, maintain.get_sql_date());
         myStat.setTime(4, maintain.getRep_time());
         myStat.setString(5, maintain.getRepDetails());
@@ -195,7 +195,7 @@ public class MaintainsDAO {
 
     private Maintain convertRowToObject(ResultSet result) throws SQLException {
         int emp_id = result.getInt(1);
-        int sensor_id = result.getInt(2);
+        String sensor_id = result.getString(2);
         java.util.Date rep_date = result.getTimestamp(3);
         java.sql.Time rep_time = result.getTime(4);
         String rep_detail = result.getString(5);

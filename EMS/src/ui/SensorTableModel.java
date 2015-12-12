@@ -1,8 +1,17 @@
 
 package ui;
 
+import common.DbConnector;
+import dao.LocationDAO;
+import dao.SensorDAO;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
+import vo.Location;
 import vo.Sensor;
 
 /**
@@ -17,16 +26,27 @@ public class SensorTableModel extends AbstractTableModel {
 	
 
 	private String[] columnNames;
-	private List<Sensor> person = null;
+	private List<Sensor> sensor = null;
+        private LocationDAO locationDAO;
         
         public SensorTableModel() {
         this.columnNames = new String[]{"Sensor ID", "Location", "Prperties Messured"};
+        try {
+                locationDAO = new LocationDAO(DbConnector.getInstance().getMyConn());
+            } catch (IOException | SQLException ex) {
+                Logger.getLogger(SensorTableModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
 		
 	}
         
 	public SensorTableModel(List<Sensor> theSensor) {
         this.columnNames = new String[]{"Sensor ID", "Location", "Prperties Messured"};
-		person = theSensor;
+		sensor = theSensor;
+            try {
+                locationDAO = new LocationDAO(DbConnector.getInstance().getMyConn());
+            } catch (IOException | SQLException ex) {
+                Logger.getLogger(SensorTableModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 
 	@Override
@@ -36,7 +56,7 @@ public class SensorTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return person.size();
+		return sensor.size();
 	}
 
 	@Override
@@ -47,21 +67,28 @@ public class SensorTableModel extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int row, int col) {
                
+            
                 
-		Sensor tempSensor = person.get(row);
-
-		switch (col) {
-		case ID_COL:
-			return tempSensor.getSensor_id();
-		case LOCATION_COL:
-			// query the location from location table
-		case PROPERTIES_COL:
-			// query the properties table
-                case OBJECT_COL:
-			return tempSensor;
-		default:
-			return tempSensor.getSensor_id();
-		}
+            try {
+                Sensor tempSensor = sensor.get(row);
+                Location tempLocation = locationDAO.getLocationOfASensor(tempSensor.getSensor_id());
+               
+                switch (col) {
+                    case ID_COL:
+                        return tempSensor.getSensor_id();
+                    case LOCATION_COL:                       
+                        return tempLocation.getStreet() + ", " + tempLocation.getNearest_junction();
+                    case PROPERTIES_COL:
+                         return tempSensor.getMeasure_types();
+                    case OBJECT_COL:
+                        return tempSensor;
+                    default:
+                        return tempSensor.getSensor_id();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(SensorTableModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
 	}
 
 	@Override
