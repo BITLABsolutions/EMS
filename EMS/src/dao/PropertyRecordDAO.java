@@ -478,25 +478,7 @@ public class PropertyRecordDAO {
     }
 
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public List<Temperature> searchTemperature(float longitude, float latitude) throws SQLException {
+    public List<Temperature> searchTemperature(double longitude, double latitude) throws SQLException {
 
         List<Temperature> temperatureList = new ArrayList<>();
         Statement myStmt = null;
@@ -525,7 +507,7 @@ public class PropertyRecordDAO {
         return temperatureList;
     }
 
-    public List<Wind> searchWind(float longitude, float latitude) throws SQLException {
+    public List<Wind> searchWind(double longitude, double latitude) throws SQLException {
 
         List<Wind> windList = new ArrayList<>();
         Statement myStmt = null;
@@ -553,7 +535,7 @@ public class PropertyRecordDAO {
         return windList;
     }
 
-    public List<Rainfall> searchRainfall(float longitude, float latitude) throws SQLException {
+    public List<Rainfall> searchRainfall(double longitude, double latitude) throws SQLException {
 
         List<Rainfall> rainfallList = new ArrayList<>();
         Statement myStmt = null;
@@ -582,7 +564,7 @@ public class PropertyRecordDAO {
         return rainfallList;
     }
 
-    public List<QualityOfAir> searchQualityOfAir(float longitude, float latitude) throws SQLException {
+    public List<QualityOfAir> searchQualityOfAir(double longitude, double latitude) throws SQLException {
 
         List<QualityOfAir> qualityOfAirList = new ArrayList<>();
         Statement myStmt = null;

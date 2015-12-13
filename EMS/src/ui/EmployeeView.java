@@ -322,7 +322,7 @@ public class EmployeeView extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnNewContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewContactActionPerformed
-
+            new AddNewEmployee(null, rootPaneCheckingEnabled, this).setVisible(true);
     }//GEN-LAST:event_btnNewContactActionPerformed
 
     private void btnUpdateContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateContactActionPerformed
@@ -340,7 +340,7 @@ public class EmployeeView extends javax.swing.JDialog {
         // open the update dialog box (same as add new employee)
         /*  try {
             //create dialog
-            NewEmployee dialog = new NewEmployee(this, rootPaneCheckingEnabled, employeeDAO, tempEmployee, true, EmployeeView.this, myConn);
+            AddNewEmployee dialog = new AddNewEmployee(this, rootPaneCheckingEnabled, employeeDAO, tempEmployee, true, EmployeeView.this, myConn);
             // show dialog
             dialog.setVisible(true);
         } catch (IOException | SQLException ex) {

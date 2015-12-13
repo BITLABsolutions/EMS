@@ -1,12 +1,11 @@
-CREATE DATABASE  IF NOT EXISTS `ems` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE  IF NOT EXISTS `ems` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `ems`;
 
-
--- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.23, for Win64 (x86_64)
 --
 -- Host: localhost    Database: ems
 -- ------------------------------------------------------
--- Server version	5.6.26-log
+-- Server version	5.6.24-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,7 +26,7 @@ DROP TABLE IF EXISTS `employee`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `employee` (
-  `emp_id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL AUTO_INCREMENT,
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(100) DEFAULT NULL,
   `nic` varchar(12) NOT NULL,
@@ -42,7 +41,7 @@ CREATE TABLE `employee` (
   UNIQUE KEY `emp_id_UNIQUE` (`emp_id`),
   UNIQUE KEY `nic_UNIQUE` (`nic`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,7 +50,7 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` (`emp_id`, `first_name`, `last_name`, `nic`, `username`, `password`, `access_level`, `street`, `town`, `phone`, `sex`) VALUES (1,'Malith','Thilakarathne','931222058v','malit.tilak','1234',1,'Agalawaththa','Matugama','0777203574',NULL);
+INSERT INTO `employee` (`emp_id`, `first_name`, `last_name`, `nic`, `username`, `password`, `access_level`, `street`, `town`, `phone`, `sex`) VALUES (1,'Malith','Thilakarathne','931222058v','malit.tilak','1234',1,'Agalawaththa','Matugama','0777203574',NULL),(3,'Chanaka','Karunarathne','933000486v','kmchmk1026','chan',3,'Bandaranayaka Mawatha','Mahabage','0717899366','Male');
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -64,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-12 19:39:05
+-- Dump completed on 2015-12-13  1:41:55

@@ -16,13 +16,13 @@ public class Employee {
     private String nic;
     private String username;
     private String password;
-    private String access_level;
+    private int access_level;//Admin - 1, Technician - 2, normal - 3, else - 0
     private String street;
     private String town;
     private String phone;
     private String sex;
 
-    public Employee(int emp_id, String first_name, String last_name, String nic, String username, String password, String access_level, String street, String town, String phone, String sex) {
+    public Employee(int emp_id, String first_name, String last_name, String nic, String username, String password, int access_level, String street, String town, String phone, String sex) {
         this.emp_id = emp_id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -85,11 +85,11 @@ public class Employee {
         this.password = password;
     }
 
-    public String getAccess_level() {
+    public int getAccess_level() {
         return access_level;
     }
 
-    public void setAccess_level(String access_level) {
+    public void setAccess_level(int access_level) {
         this.access_level = access_level;
     }
 
@@ -136,7 +136,7 @@ public class Employee {
         temp+=                                                           "<tr><td><b>Employee ID</b></td><td>"+emp_id+"</td></tr>";
         if(nic != null & !"".equals(nic)){temp+=                         "<tr><td><b>NIC</b></td><td>"+nic+"</td></tr>";}
         if(username != null & !"".equals(username)){temp+=               "<tr><td><b>User Name</b></td><td>"+username+"</td></tr>";}
-        if(access_level != null & !"".equals(access_level)){temp+=       "<tr><td><b>Access Level</b></td><td>"+access_level+"</td></tr>";}
+        if(access_level != 0 & !"".equals(access_level)){temp+=       "<tr><td><b>Access Level</b></td><td>"+access_level+"</td></tr>";}
         if(street != null & !"".equals(street)){temp+=                   "<tr><td><b>Street</b></td><td>"+street +"</td></tr>";}
         if(town != null & !"".equals(town)){temp+=                       "<tr><td><b>Town</b></td><td>"+town+"</td></tr>";}
         if(phone != null & !"".equals(phone)){temp+=                     "<tr><td><b>Phone</b></td><td>"+phone+"</td></tr>";}

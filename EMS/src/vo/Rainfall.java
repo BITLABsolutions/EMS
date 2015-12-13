@@ -2,7 +2,7 @@ package vo;
 
 import java.sql.Timestamp;
 
-public class Rainfall {
+public class Rainfall{
 
     int height;
     Timestamp time;

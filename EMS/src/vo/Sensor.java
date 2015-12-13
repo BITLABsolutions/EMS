@@ -16,13 +16,13 @@ import java.util.Date;
  */
 public class Sensor {
     private String sensor_id;
-    private String serial_num;
+    private String serial_no;
     private Date installed_date;
     private String measure_types;
 
-    public Sensor(String sensor_id, String serial_num, Date installed_date, String measure_types) {
+    public Sensor(String sensor_id, String serial_no, Date installed_date, String measure_types) {
         this.sensor_id = sensor_id;
-        this.serial_num = serial_num;
+        this.serial_no = serial_no;
         this.installed_date = installed_date;
         this.measure_types = measure_types;
     }
@@ -46,11 +46,11 @@ public class Sensor {
     }
 
     public String getSerial_num() {
-        return serial_num;
+        return serial_no;
     }
 
-    public void setSerial_num(String serial_num) {
-        this.serial_num = serial_num;
+    public void setSerial_num(String serial_no) {
+        this.serial_no = serial_no;
     }
 
     public Date getInstalled_date() {
@@ -69,7 +69,7 @@ public class Sensor {
          
         temp="<TABLE ALIGN=CENTER WIDTH=\"90%\" BORDER=0 CELLSPACING=1 CELLPADDING=1><caption>"+name+"</caption>";   
                       
-        if(serial_num != null & !"".equals(serial_num)){temp+=           "<tr><td><b>Serial number</b></td><td>"+serial_num+"</td></tr>";}
+        if(serial_no != null & !"".equals(serial_no)){temp+=           "<tr><td><b>Serial number</b></td><td>"+serial_no+"</td></tr>";}
         if(installed_date != null ){temp+=                               "<tr><td><b>Installed date</b></td><td>"+installed_date+"</td></tr>";}
         
        // temp+= "</table></body></html>";

@@ -22,6 +22,7 @@ import vo.Employee;
  * @author Malith
  */
 public class EmployeeDAO {
+
     private final Connection myConn;
 
     public EmployeeDAO(Connection myConn) throws IOException, SQLException {
@@ -35,7 +36,7 @@ public class EmployeeDAO {
     /**
      * get all person to a List
      *
-     * @return 
+     * @return
      */
     public List<Employee> getAllEmployee() {
 
@@ -52,7 +53,7 @@ public class EmployeeDAO {
                 Employee tempEmployee = convertRowToEmployee(myRs);
                 list.add(tempEmployee);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -66,9 +67,10 @@ public class EmployeeDAO {
      * AC number
      *
      * @param keyWord
-     * @param searchPara - should be one of these --> emp_id, first_name, last_name, nic, username, street, town, phone
-     * @return 
-     * @throws java.lang.Exception 
+     * @param searchPara - should be one of these --> emp_id, first_name,
+     * last_name, nic, username, street, town, phone
+     * @return
+     * @throws java.lang.Exception
      */
     public List<Employee> searchEmployee(String keyWord, String searchPara) throws Exception {
 
@@ -79,7 +81,7 @@ public class EmployeeDAO {
         try {
             keyWord = "%" + keyWord + "%";
             switch (searchPara) {
-          
+
                 case "Name":
                     query = "select * from employee where first_name like ? or last_name like ?";
                     myStmt = myConn.prepareStatement(query);
@@ -91,9 +93,9 @@ public class EmployeeDAO {
                     myStmt = myConn.prepareStatement(query);
                     myStmt.setString(1, keyWord);
                     break;
-                                                      
+
                 default:
-                   query = "select * from employee where emp_id like ? or first_name like ? or last_name like ? or nic like ? or username like ? or street like ? or town like ? or phone like ?";
+                    query = "select * from employee where emp_id like ? or first_name like ? or last_name like ? or nic like ? or username like ? or street like ? or town like ? or phone like ?";
                     myStmt = myConn.prepareStatement(query);
                     //set parameters
                     for (int i = 1; i < 9; i++) {
@@ -125,14 +127,23 @@ public class EmployeeDAO {
         PreparedStatement myStmt = null;
         try {
             //prepare statement
-            myStmt = myConn.prepareStatement("INSERT INTO employee (emp_id, first_name, last_name, nic, username, password, access_level,street,town, phone, sex)values (?,?,?,?,?,?,?,?,?,?,?)");
+            myStmt = myConn.prepareStatement("INSERT INTO employee (first_name, last_name, nic, username, password, access_level,street,town, phone, sex)values (?,?,?,?,?,?,?,?,?,?)");
 
             //set params
-           myStmt = setParams(myStmt, employee);
+            myStmt.setString(1, employee.getFirst_name());
+            myStmt.setString(2, employee.getLast_name());
+            myStmt.setString(3, employee.getNic());
+            myStmt.setString(4, employee.getUsername());
+            myStmt.setString(5, employee.getPassword());
+            myStmt.setInt(6, employee.getAccess_level());
+            myStmt.setString(7, employee.getStreet());
+            myStmt.setString(8, employee.getTown());
+            myStmt.setString(9, employee.getPhone());
+            myStmt.setString(10, employee.getSex());
 
             // execute the statement
             myStmt.executeUpdate();
-            
+
         } finally {
             close(myStmt);
         }
@@ -152,7 +163,17 @@ public class EmployeeDAO {
             myStmt = myConn.prepareStatement("update employee set emp_id = ?, first_name = ?, last_name = ?, nic = ?, username = ?, password = ?, access_level = ?, street = ?, town = ?, phone = ?, sex = ? where emp_id = ? ");
 
             // set params
-            myStmt = setParams(myStmt, employee);
+            myStmt.setInt(1, employee.getEmp_id());
+            myStmt.setString(2, employee.getFirst_name());
+            myStmt.setString(3, employee.getLast_name());
+            myStmt.setString(4, employee.getNic());
+            myStmt.setString(5, employee.getUsername());
+            myStmt.setString(6, employee.getPassword());
+            myStmt.setInt(7, employee.getAccess_level());
+            myStmt.setString(8, employee.getStreet());
+            myStmt.setString(9, employee.getTown());
+            myStmt.setString(10, employee.getPhone());
+            myStmt.setString(11, employee.getSex());
             myStmt.setInt(12, previousNIC);
             //execute statement
             myStmt.executeUpdate();
@@ -160,8 +181,6 @@ public class EmployeeDAO {
             close(myStmt);
         }
     }
-    
-    
 
     /**
      * delete person
@@ -233,39 +252,66 @@ public class EmployeeDAO {
         String nic = myRs.getString(4);
         String username = myRs.getString(5);
         String password = myRs.getString(6);
-        String access_level = myRs.getString(7);
+        int access_level = myRs.getInt(7);
         String street = myRs.getString(8);
         String town = myRs.getString(9);
         String phone = myRs.getString(10);
         String sex = myRs.getString(11);
-        
 
-        Employee tempEmployee = new Employee(emp_id,  first_name,  last_name,  nic,  username,  password,  access_level,  street,  town,  phone,  sex);
+        Employee tempEmployee = new Employee(emp_id, first_name, last_name, nic, username, password, access_level, street, town, phone, sex);
         return tempEmployee;
     }
-    
+
     /**
      * Method to set parameters in to a mySql statement
+     *
+     * @param username
      * @param myStmt
      * @param employee
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    private PreparedStatement setParams(PreparedStatement myStmt, Employee employee) throws SQLException{
-        myStmt.setInt(1, employee.getEmp_id());
-        myStmt.setString(2, employee.getFirst_name());
-        myStmt.setString(3, employee.getLast_name());
-        myStmt.setString(4 , employee.getNic());
-        myStmt.setString(5, employee.getUsername());
-        myStmt.setString(6, employee.getPassword());
-        myStmt.setString(7, employee.getAccess_level());
-        myStmt.setString(8, employee.getStreet());
-        myStmt.setString(9, employee.getTown());
-        myStmt.setString(10, employee.getPhone());
-        myStmt.setString(11, employee.getSex());
-        
-        return myStmt;
-    }
-   
+    public boolean CheckUsernameAvailability(String username) throws SQLException {
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        try {
+            String query = "SELECT * FROM employee WHERE username = '" + username + "'";
 
+            myStmt = myConn.createStatement();
+            myRs = myStmt.executeQuery(query);
+
+            if (myRs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            close(myStmt, myRs);
+        }
+        return false;
+    }
+    
+    public boolean CheckNICAvailability(String nic) throws SQLException {
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        try {
+            String query = "SELECT * FROM employee WHERE nic = '" + nic + "'";
+
+            myStmt = myConn.createStatement();
+            myRs = myStmt.executeQuery(query);
+
+            if (myRs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            close(myStmt, myRs);
+        }
+        return false;
+    }
 }
