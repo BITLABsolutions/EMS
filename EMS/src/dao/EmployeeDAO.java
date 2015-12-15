@@ -160,10 +160,9 @@ public class EmployeeDAO {
         PreparedStatement myStmt = null;
         try {
             //prepare the statement
-            myStmt = myConn.prepareStatement("update employee set first_name = ?, last_name = ?, nic = ?, username = ?, password = ?, access_level = ?, street = ?, town = ?, phone = ?, sex = ? where emp_id = ? ");
+            myStmt = myConn.prepareStatement("UPDATE employee SET first_name = ?, last_name = ?, nic = ?, username = ?, password = ?, access_level = ?, street = ?, town = ?, phone = ?, sex = ? WHERE emp_id = ? ");
 
             // set params
-
             myStmt.setString(1, employee.getFirst_name());
             myStmt.setString(2, employee.getLast_name());
             myStmt.setString(3, employee.getNic());
@@ -292,7 +291,7 @@ public class EmployeeDAO {
         }
         return false;
     }
-    
+
     public boolean CheckNICAvailability(String nic) throws SQLException {
         Statement myStmt = null;
         ResultSet myRs = null;

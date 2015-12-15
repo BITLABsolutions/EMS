@@ -37,7 +37,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
         this.employeeView = employeeView;
         this.OldEmployeeObject = oldEmployee;
         
-        populateGUI();
+        populate_GUI();
         
         rbtnGroup.add(rbtn_normal);
         rbtnGroup.add(rbtn_system_admin);
@@ -85,7 +85,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
         txt_street = new javax.swing.JTextField();
         txt_town = new javax.swing.JTextField();
         txt_phone = new javax.swing.JTextField();
-        btn_update = new javax.swing.JButton();
+        btn_save = new javax.swing.JButton();
         btn_cancel = new javax.swing.JButton();
         pfield_new = new javax.swing.JPasswordField();
         jLabel13 = new javax.swing.JLabel();
@@ -96,7 +96,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
         label_nic = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Add New Employee");
+        setTitle("Change employee details");
         setAlwaysOnTop(true);
 
         jLabel1.setText("First name");
@@ -152,10 +152,10 @@ public class UpdateEmployee extends javax.swing.JDialog {
             }
         });
 
-        btn_update.setText("Update");
-        btn_update.addActionListener(new java.awt.event.ActionListener() {
+        btn_save.setText("Save");
+        btn_save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_updateActionPerformed(evt);
+                btn_saveActionPerformed(evt);
             }
         });
 
@@ -211,7 +211,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(btn_cancel)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btn_save, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -311,7 +311,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
                     .addComponent(txt_phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_update)
+                    .addComponent(btn_save)
                     .addComponent(btn_cancel))
                 .addContainerGap())
         );
@@ -336,7 +336,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
+    private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
         if (!"".equals(txt_first_name.getText())) {
             if (!"".equals(txt_nic.getText())) {
                 if (!"".equals(txt_username.getText())) {
@@ -357,7 +357,6 @@ public class UpdateEmployee extends javax.swing.JDialog {
                             this.dispose();
                         } catch (SQLException ex) {
                             JOptionPane.showMessageDialog(rootPane, "Something is wrong. Check again!", "Cannot add", JOptionPane.ERROR_MESSAGE);
-                            //Logger.getLogger(AddNewEmployee.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Password does not match", "Error", JOptionPane.ERROR_MESSAGE);
@@ -373,7 +372,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(rootPane, "Fill first name", "Error", JOptionPane.ERROR_MESSAGE);
         }
         employeeView.refreshGUI();
-    }//GEN-LAST:event_btn_updateActionPerformed
+    }//GEN-LAST:event_btn_saveActionPerformed
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         if (JOptionPane.showConfirmDialog(rootPane, "Added data will not be saved", "Warning!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
@@ -391,7 +390,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
 
         } catch (Exception e) {
             jLabel_sex.setText(null);
-            JOptionPane.showMessageDialog(rootPane, "Incorrect NIC number", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "NIC number is incorrect. Please correct it.", "Warning!", JOptionPane.WARNING_MESSAGE);
 
         }
     }//GEN-LAST:event_txt_nicFocusLost
@@ -417,7 +416,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
     }//GEN-LAST:event_txt_usernameKeyReleased
 
     
-    public void populateGUI(){
+    public void populate_GUI(){
         txt_first_name.setText(OldEmployeeObject.getFirst_name());
         txt_last_name.setText(OldEmployeeObject.getLast_name());
         txt_nic.setText(OldEmployeeObject.getNic());
@@ -502,7 +501,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
-    private javax.swing.JButton btn_update;
+    private javax.swing.JButton btn_save;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

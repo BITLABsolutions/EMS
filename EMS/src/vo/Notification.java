@@ -12,30 +12,29 @@ import java.util.Set;
 public class Notification  implements java.io.Serializable {
 
 
-     private Integer notificationId;
-     private Sensor sensor;
+     private Integer notificationId; //auto incremented
+     private String sensorId;
      private Date genaratedDate;
      private String message;
      private String priority;
-     private Set destinations = new HashSet(0);
+     //private Set destinations = new HashSet(0);
 
     public Notification() {
     }
 
 	
-    public Notification(Sensor sensor, Date genaratedDate, String message) {
-        this.sensor = sensor;
+    public Notification(String sensorId, Date genaratedDate, String message) {
+        this.sensorId = sensorId;
         this.genaratedDate = genaratedDate;
         this.message = message;
     }
-    public Notification(Sensor sensor, Date genaratedDate, String message, String priority, Set destinations) {
-       this.sensor = sensor;
+    public Notification(String sensorId, Date genaratedDate, String message, String priority) {
+       this.sensorId = sensorId;
        this.genaratedDate = genaratedDate;
        this.message = message;
        this.priority = priority;
-       this.destinations = destinations;
+       
     }
-   
     public Integer getNotificationId() {
         return this.notificationId;
     }
@@ -43,12 +42,12 @@ public class Notification  implements java.io.Serializable {
     public void setNotificationId(Integer notificationId) {
         this.notificationId = notificationId;
     }
-    public Sensor getSensor() {
-        return this.sensor;
+    public String getSensorId() {
+        return this.sensorId;
     }
     
-    public void setSensor(Sensor sensor) {
-        this.sensor = sensor;
+    public void setSensor(String sensor) {
+        this.sensorId = sensorId;
     }
     public Date getGenaratedDate() {
         return this.genaratedDate;
@@ -71,13 +70,7 @@ public class Notification  implements java.io.Serializable {
     public void setPriority(String priority) {
         this.priority = priority;
     }
-    public Set getDestinations() {
-        return this.destinations;
-    }
     
-    public void setDestinations(Set destinations) {
-        this.destinations = destinations;
-    }
 
 
 

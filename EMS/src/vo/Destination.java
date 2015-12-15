@@ -9,7 +9,7 @@ package vo;
 public class Destination  implements java.io.Serializable {
 
 
-     private int notificationId;
+     private Integer notificationId;
      private String destiny;
 
     public Destination() {

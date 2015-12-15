@@ -33,11 +33,10 @@ public class SensorDAO {
     public void insertSensor(Sensor sensor) throws SQLException{
         PreparedStatement myStat=null;
         try{
-            myStat=myCon.prepareStatement("Insert into sensor (sensor_id, serial_no, installed_date, measure_types) values(?,?,?,?)");
-            myStat.setString(1, sensor.getSensor_id());
-            myStat.setString(2, sensor.getSerial_num());
-            myStat.setDate(3, new java.sql.Date(sensor.getInstalled_date().getTime()));
-            myStat.setString(4, sensor.getMeasure_types());
+            myStat=myCon.prepareStatement("Insert into sensor (serial_no, installed_date, measure_types) values(?,?,?)");
+            myStat.setString(1, sensor.getSerial_num());
+            myStat.setDate(2, new java.sql.Date(sensor.getInstalled_date().getTime()));
+            myStat.setString(3, sensor.getMeasure_types());
             
             // execute the statement
             myStat.executeUpdate();
