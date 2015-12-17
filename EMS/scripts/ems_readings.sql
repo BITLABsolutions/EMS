@@ -1,6 +1,3 @@
-create database if not exists ems;
-use ems;
-
   
 CREATE TABLE temperature (
   temperature_id INT NOT NULL AUTO_INCREMENT,

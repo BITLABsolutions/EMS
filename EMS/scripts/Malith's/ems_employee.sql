@@ -1,6 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `ems` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE  IF NOT EXISTS `ems` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `ems`;
-
 -- MySQL dump 10.13  Distrib 5.6.23, for Win64 (x86_64)
 --
 -- Host: localhost    Database: ems
@@ -50,7 +49,7 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` (`emp_id`, `first_name`, `last_name`, `nic`, `username`, `password`, `access_level`, `street`, `town`, `phone`, `sex`) VALUES (1,'Malith','Thilakarathne','931222058v','malit.tilak','1234',1,'Agalawaththa','Matugama','0777203574',NULL),(3,'Chanaka','Karunarathne','933000486v','kmchmk1026','chan',3,'Bandaranayaka Mawatha','Mahabage','0717899366','Male');
+INSERT INTO `employee` VALUES (1,'Malith','Thilakarathne','931222058v','malit.tilak','1234',1,'Agalawaththa','Matugama','0777203574','Male'),(2,'Chanaka','Karunarathne','933000486v','kmchmk1026','chan',3,'Bandaranayaka Mawatha','Mahabage','0717899366','Male'),(3,'Chamin','Ranathunga','931234334c','chamin12','1234@c',2,'Kandewaththa','Kaluthara','0712312131','Male'),(4,'Kamala','Silva','921231233z','kam123','k@1234',3,'High level','Colombo 4','0781232132','Female'),(5,'Sunimal','Wijerathna','912312231e','suji123','s@0987',2,'Mal mawatha','Kandhana','0712123123','Male'),(6,'Sarath','Fernando','891212333p','sara1','s@1234',1,'First lane','Anuradhapura','0721232331','Male'),(7,'Seetha','Weththasingha','751231232e','seetha123','kamu123',2,'Slamal Mawatha','Mathara','0723213213','Female'),(8,'Rupa','Silva','871231231w','rupa','r@987',1,'Keselwaththa','Kandy','0712321333','Female'),(9,'Ranil','Mallawarachchi','811233123w','rana','r@34',2,'R.D Mel Road','Colombo 7','0713321333','Male'),(10,'Sara','Silva','821232133q','saraS12','s@1232',3,'2nd Lane','Moratuwa','0712312322','Male');
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -63,4 +62,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-13  1:41:55
+-- Dump completed on 2015-12-17  9:37:40

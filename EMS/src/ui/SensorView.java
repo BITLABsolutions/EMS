@@ -393,7 +393,7 @@ public class SensorView extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnNewContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewContactActionPerformed
-
+       new NewSensor(null, rootPaneCheckingEnabled);
     }//GEN-LAST:event_btnNewContactActionPerformed
 
     private void btnUpdateContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateContactActionPerformed

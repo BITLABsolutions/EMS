@@ -43,7 +43,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` (`sensor_id`, `street`, `nearest_junction`, `longitude`, `latitude`) VALUES ('2','unionPlace','Lipton',44,56),('3','slave island','navaloka',45,65),('6','main','maradana',54,5);
+INSERT INTO `location` (`sensor_id`, `street`, `nearest_junction`, `longitude`, `latitude`) VALUES ('1','Main street','Thotalanga',48,48),('10','Charles place','Wellawatta',87,45),('11','Navam mawatha','Gangaaramaya',48,87),('12','Borella road','Navala',87,48),('13','Navala road','Maradana',54,45),('14','De seram road','Modara',45,88),('15','Ward place','Lipton',54,48),('16','Mihindu mawatha','Keselwatta',54,87),('17','Baseline road','Angoda',87,48),('18','Horton place','Nelum Pokuna',88,87),('19','de mal road','Kollupitiya',87,84),('2','unionPlace','Lipton',44,56),('20','Fathima road','Bambalapitiya',87,90),('3','Slave island','navaloka',45,65),('4','galle road','Wellawaththa',45,54),('5','school lane','Jubiliy',45,54),('6','main','maradana',54,54),('7','Chatham street','Galle face',47,12),('8','Queen street','harbour',48,54),('9','King street','Pettah',45,87);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-12 19:39:05
+-- Dump completed on 2015-12-17  9:39:19
