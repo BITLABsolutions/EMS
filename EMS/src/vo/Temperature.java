@@ -16,6 +16,12 @@ public class Temperature {
         this.measuringFrequency = measuringFrequency;
     }
 
+    public Temperature(int tempValue, Timestamp time) {
+        this.tempValue = tempValue;
+        this.time = time;
+    }
+    
+
     public int getTempValue() {
         return tempValue;
     }

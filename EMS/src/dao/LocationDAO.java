@@ -48,6 +48,25 @@ public class LocationDAO {
         return result_list;
     }
     
+    public List<String> getAllSreets() throws SQLException {
+        PreparedStatement myStat = null;
+        List<String> result_list = new ArrayList<>();
+        ResultSet result = null;
+        try{
+            String query="Select DISTINCT street from location";
+            myStat=myCon.prepareStatement(query);
+            result=myStat.executeQuery();
+            while(result.next()){               
+                result_list.add(result.getString(1));
+            }
+        }
+        finally{
+            close(myStat, result);
+        }
+        return result_list;
+    }
+    
+    
     public void insertLocationOfSensor(Location location) throws SQLException{
         PreparedStatement myStat = null;
         try {
@@ -127,7 +146,27 @@ public class LocationDAO {
         }
         return nearest_junction;
     }
-
+    public Location getLocation(String street, String junction){
+        PreparedStatement myStat = null;
+        ResultSet result = null;
+        
+        try{
+            String query="Select * from location where street=? and nearest_junction = ?";
+            myStat=myCon.prepareStatement(query);
+            myStat.setString(1, street);
+            myStat.setString(2, junction);
+            result=myStat.executeQuery();
+            if(result.next()){
+                return convertRowToALocation(result);
+            }
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(LocationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }        finally{
+            close(myStat, result);
+        }
+        return null;
+    }
     public Location convertRowToALocation(ResultSet result) throws SQLException {
         String sensor_id=result.getString(1);
         String street=result.getString(2);
@@ -161,6 +200,37 @@ public class LocationDAO {
 
     private void close(Statement myStmt) throws SQLException {
         close(null, myStmt, null);
+    }
+
+    public String[] getReleventJunctions(String street) {
+        PreparedStatement myStat = null;
+        
+        List<String> result_list = new ArrayList<>();
+        ResultSet result = null;
+        try{
+            String query="select nearest_junction from location where street = ?";           
+            myStat=myCon.prepareStatement(query);
+            myStat.setString(1, street);
+            
+            result=myStat.executeQuery();
+            while(result.next()){               
+                result_list.add(result.getString(1));
+            }
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(LocationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        finally{
+            close(myStat, result);
+        }
+         
+            int size = result_list.size();
+            String[] junctionArray = new String[size];
+            for (int i = 0; i < size; i++) {
+                junctionArray[i] = result_list.get(i);
+            }
+            return junctionArray;
+
     }
 
 }

@@ -79,7 +79,7 @@ public class SensorTableModel extends AbstractTableModel {
                     case LOCATION_COL:                       
                         return tempLocation.getStreet() + ", " + tempLocation.getNearest_junction();
                     case PROPERTIES_COL:
-                         return tempSensor.getMeasure_types();
+                         return tempSensor.getMeasure_type();
                     case OBJECT_COL:
                         return tempSensor;
                     default:

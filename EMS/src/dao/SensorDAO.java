@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import vo.Location;
 import vo.Sensor;
 
 /**
@@ -36,7 +37,7 @@ public class SensorDAO {
             myStat=myCon.prepareStatement("Insert into sensor (serial_no, installed_date, measure_types, sensor_id) values(?,?,?,?)");
             myStat.setString(1, sensor.getSerial_num());
             myStat.setDate(2, new java.sql.Date(sensor.getInstalled_date().getTime()));
-            myStat.setString(3, sensor.getMeasure_types());
+            myStat.setString(3, sensor.getMeasure_type());
             myStat.setString(4, sensor.getSensor_id());
             
             // execute the statement
@@ -134,7 +135,34 @@ public class SensorDAO {
         }
         
     }
-    
+     public Sensor getSensor(String street, String junction, String measureType) throws SQLException{
+         
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+        String query;
+       
+          
+                
+
+        query = "select * from sensor where measure_types = ? and  sensor_id in (select sensor_id from location where street = ? and nearest_junction = ?)";
+        myStmt = myCon.prepareStatement(query);
+        myStmt.setString(1, measureType);
+        myStmt.setString(2, street);
+        myStmt.setString(3, junction);
+
+
+
+
+        // execute statement
+        myRs = myStmt.executeQuery();
+        while ( myRs.next()){
+       
+        Sensor tempSensor = convertRowToASensor(myRs);    
+        return tempSensor;}
+        return null;
+        
+    }
+     
     private Sensor convertRowToASensor(ResultSet result) throws SQLException{
         String sensor_id=result.getString(1);
         String serial_no=result.getString(2);

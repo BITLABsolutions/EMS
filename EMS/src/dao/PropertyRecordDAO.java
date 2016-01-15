@@ -7,9 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import vo.QualityOfAir;
 import vo.Rainfall;
 import vo.Temperature;
@@ -341,17 +346,21 @@ public class PropertyRecordDAO {
 
     public List<Temperature> searchTemperature(Date startDate, Date endDate) throws SQLException {
 
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strStartDate = formatter.format(startDate);
+        String toDate = formatter.format(endDate);
+
         List<Temperature> temperatureList = new ArrayList<>();
         Statement myStmt = null;
         ResultSet myRs = null;
 
         try {
             myStmt = myConn.createStatement();
-            myRs = myStmt.executeQuery("SELECT temp_value, time, sensor_id, measuring_frequency FROM temperature WHERE '" + startDate + "' <  time and time < '" + endDate + "'");
+            myRs = myStmt.executeQuery("SELECT temp_value, time FROM temperature WHERE '" + strStartDate + "' <  time and time < '" + toDate + "'");
 
             while (myRs.next()) {
 
-                Temperature tempTemperature = new Temperature(myRs.getInt(1), myRs.getTimestamp(2), myRs.getString(3), myRs.getInt(4));
+                Temperature tempTemperature = new Temperature(myRs.getInt(1), myRs.getTimestamp(2));  //temp value should be a float!!!!
                 temperatureList.add(tempTemperature);
             }
         } finally {
@@ -361,25 +370,27 @@ public class PropertyRecordDAO {
             if (myStmt != null) {
                 myStmt.close();
             }
-            if (myConn != null) {
-                myConn.close();
-            }
+
         }
         return temperatureList;
+
     }
 
     public List<Wind> searchWind(Date startDate, Date endDate) throws SQLException {
-
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strStartDate = formatter.format(startDate);
+        String toDate = formatter.format(endDate);
+        
         List<Wind> windList = new ArrayList<>();
         Statement myStmt = null;
         ResultSet myRs = null;
 
         try {
             myStmt = myConn.createStatement();
-            myRs = myStmt.executeQuery("SELECT speed, direction, time, sensor_id, measuring_frequency FROM wind WHERE '" + startDate + "' <  time and time < '" + endDate + "'");
+            myRs = myStmt.executeQuery("SELECT * FROM wind WHERE '" + strStartDate + "' <  time and time < '" + toDate + "'");
 
             while (myRs.next()) {
-                Wind tempWind = new Wind(myRs.getInt(1), myRs.getInt(2), myRs.getTimestamp(3), myRs.getString(4), myRs.getInt(5));
+                Wind tempWind = new Wind(myRs.getInt(2), myRs.getInt(3), myRs.getTimestamp(4), myRs.getString(5), myRs.getInt(6));
                 windList.add(tempWind);
             }
         } finally {
@@ -389,14 +400,16 @@ public class PropertyRecordDAO {
             if (myStmt != null) {
                 myStmt.close();
             }
-            if (myConn != null) {
-                myConn.close();
-            }
+           
         }
         return windList;
     }
 
     public List<Rainfall> searchRainfall(Date startDate, Date endDate) throws SQLException {
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strStartDate = formatter.format(startDate);
+        String toDate = formatter.format(endDate);
 
         List<Rainfall> rainfallList = new ArrayList<>();
         Statement myStmt = null;
@@ -404,7 +417,7 @@ public class PropertyRecordDAO {
 
         try {
             myStmt = myConn.createStatement();
-            myRs = myStmt.executeQuery("SELECT height, time, sensor_id, measuring_frequency FROM rainfall WHERE '" + startDate + "' <  time and time < '" + endDate + "'");
+            myRs = myStmt.executeQuery("SELECT height, time, sensor_id, measuring_frequency FROM rainfall WHERE '" + strStartDate + "' <  time and time < '" + toDate + "'");
 
             while (myRs.next()) {
 
@@ -418,22 +431,24 @@ public class PropertyRecordDAO {
             if (myStmt != null) {
                 myStmt.close();
             }
-            if (myConn != null) {
-                myConn.close();
-            }
+            
         }
         return rainfallList;
     }
 
     public List<QualityOfAir> searchQualityOfAir(Date startDate, Date endDate) throws SQLException {
 
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strStartDate = formatter.format(startDate);
+        String toDate = formatter.format(endDate);
+        
         List<QualityOfAir> qualityOfAirList = new ArrayList<>();
         Statement myStmt = null;
         ResultSet myRs = null;
 
         try {
             myStmt = myConn.createStatement();
-            myRs = myStmt.executeQuery("SELECT co2, o2, n2, humadity, time, sensor_id, measuring_frequency FROM quality_of_air WHERE '" + startDate + "' <  time and time < '" + endDate + "'");
+            myRs = myStmt.executeQuery("SELECT co2, o2, n2, humadity, time, sensor_id, measuring_frequency FROM quality_of_air WHERE '" + strStartDate + "' <  time and time < '" + toDate + "'");
 
             while (myRs.next()) {
                 QualityOfAir tempQualityOfAir = new QualityOfAir(myRs.getInt(1), myRs.getInt(2), myRs.getInt(3), myRs.getInt(4), myRs.getTimestamp(5), myRs.getString(6), myRs.getInt(7));
@@ -446,9 +461,7 @@ public class PropertyRecordDAO {
             if (myStmt != null) {
                 myStmt.close();
             }
-            if (myConn != null) {
-                myConn.close();
-            }
+           
         }
         return qualityOfAirList;
     }
@@ -477,7 +490,6 @@ public class PropertyRecordDAO {
         return searchQualityOfAir(start, end);
     }
 
-    
     public List<Temperature> searchTemperature(double longitude, double latitude) throws SQLException {
 
         List<Temperature> temperatureList = new ArrayList<>();
@@ -486,7 +498,7 @@ public class PropertyRecordDAO {
 
         try {
             myStmt = myConn.createStatement();
-            myRs = myStmt.executeQuery("SELECT temp_value, time, sensor_id, measuring_frequency FROM temperature NATURAL JOIN location WHERE longitude = '"+longitude+"' and latitude = '"+latitude+"'");
+            myRs = myStmt.executeQuery("SELECT temp_value, time, sensor_id, measuring_frequency FROM temperature NATURAL JOIN location WHERE longitude = '" + longitude + "' and latitude = '" + latitude + "'");
 
             while (myRs.next()) {
 
@@ -515,7 +527,7 @@ public class PropertyRecordDAO {
 
         try {
             myStmt = myConn.createStatement();
-            myRs = myStmt.executeQuery("SELECT speed, direction, time, sensor_id, measuring_frequency FROM wind NATURAL JOIN location WHERE longitude = '"+longitude+"' and latitude = '"+latitude+"'");
+            myRs = myStmt.executeQuery("SELECT speed, direction, time, sensor_id, measuring_frequency FROM wind NATURAL JOIN location WHERE longitude = '" + longitude + "' and latitude = '" + latitude + "'");
 
             while (myRs.next()) {
                 Wind tempWind = new Wind(myRs.getInt(1), myRs.getInt(2), myRs.getTimestamp(3), myRs.getString(4), myRs.getInt(5));
@@ -543,7 +555,7 @@ public class PropertyRecordDAO {
 
         try {
             myStmt = myConn.createStatement();
-            myRs = myStmt.executeQuery("SELECT height, time, sensor_id, measuring_frequency FROM rainfall NATURAL JOIN location WHERE longitude = '"+longitude+"' and latitude = '"+latitude+"'");
+            myRs = myStmt.executeQuery("SELECT height, time, sensor_id, measuring_frequency FROM rainfall NATURAL JOIN location WHERE longitude = '" + longitude + "' and latitude = '" + latitude + "'");
 
             while (myRs.next()) {
 
@@ -572,7 +584,7 @@ public class PropertyRecordDAO {
 
         try {
             myStmt = myConn.createStatement();
-            myRs = myStmt.executeQuery("SELECT co2, o2, n2, humadity, time, sensor_id, measuring_frequency FROM quality_of_air NATURAL JOIN location WHERE longitude = '"+longitude+"' and latitude = '"+latitude+"'");
+            myRs = myStmt.executeQuery("SELECT co2, o2, n2, humadity, time, sensor_id, measuring_frequency FROM quality_of_air NATURAL JOIN location WHERE longitude = '" + longitude + "' and latitude = '" + latitude + "'");
 
             while (myRs.next()) {
                 QualityOfAir tempQualityOfAir = new QualityOfAir(myRs.getInt(1), myRs.getInt(2), myRs.getInt(3), myRs.getInt(4), myRs.getTimestamp(5), myRs.getString(6), myRs.getInt(7));

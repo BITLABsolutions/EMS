@@ -18,6 +18,10 @@ public class Wind {
         this.measuringFrequency = measuringFrequency;
     }
 
+    public Wind(int aInt, int aInt0, Timestamp timestamp) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public int getSpeed() {
         return speed;
     }

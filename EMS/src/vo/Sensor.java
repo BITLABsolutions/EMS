@@ -18,24 +18,23 @@ public class Sensor {
     private String sensor_id;
     private String serial_no;
     private Date installed_date;
-    private String measure_types;
+    private String measure_type;
 
-    public Sensor(String sensor_id, String serial_no, Date installed_date, String measure_types) {
+    public Sensor(String sensor_id, String serial_no, Date installed_date, String measure_type) {
         this.sensor_id = sensor_id;
         this.serial_no = serial_no;
         this.installed_date = installed_date;
-        this.measure_types = measure_types;
+        this.measure_type = measure_type;
     }
 
-    public String getMeasure_types() {
-        return measure_types;
+    public String getMeasure_type() {
+        return measure_type;
     }
 
-    public void setMeasure_types(String[] measure_types) {
-        this.measure_types = convert_arr_to_string(measure_types);
+    public void setMeasure_type(String measure_type) {
+        this.measure_type = measure_type;
     }
 
-    
     
     public String getSensor_id() {
         return sensor_id;
@@ -76,15 +75,4 @@ public class Sensor {
         return temp;
     }
 
-    public String[] convert_string_to_arr(String str){
-        String[] result = null;
-            result = str.split("");
-        return result;
-    }
-    
-    public String convert_arr_to_string(String[] arr){
-        String result = null;
-            result = Arrays.toString(arr);
-        return result;
-    }
 }

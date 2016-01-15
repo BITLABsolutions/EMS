@@ -71,6 +71,16 @@ FOREIGN KEY (notification_id) REFERENCES notification(notification_id)
 );
 
 
+DROP TABLE IF EXISTS `maintain`;
+CREATE TABLE `maintain` (
+  `emp_id` int(11) NOT NULL,
+  `sensor_id` varchar(20) NOT NULL,
+  `rep_date` date NOT NULL,
+  `rep_time` time NOT NULL,
+  `rep_detail` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`emp_id`,`sensor_id`,`rep_date`,`rep_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
   DROP TABLE IF EXISTS temperature;
 CREATE TABLE temperature (
   temperature_id INT NOT NULL AUTO_INCREMENT,

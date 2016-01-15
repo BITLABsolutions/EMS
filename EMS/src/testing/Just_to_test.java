@@ -1,13 +1,14 @@
 package testing;
 
 import common.DbConnector;
+import dao.PropertyRecordDAO;
 import dao.SensorDAO;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import vo.Sensor;
+import vo.Temperature;
 
 
 public class Just_to_test {
@@ -15,13 +16,13 @@ public class Just_to_test {
     public static void main(String args[]) throws IOException, SQLException, ParseException {
         DbConnector d = new DbConnector();
         Connection c = d.getMyConn();
-        //PropertyRecordDAO p = new PropertyRecordDAO(c);
+        PropertyRecordDAO p = new PropertyRecordDAO(c);
 
         //SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         //Date td = sdf.parse("2015/12/12");
         //Timestamp date = new Timestamp(td.getTime());
         //Timestamp startDate = Timestamp.valueOf("2015-12-11 10:57:09");
-        ////p.addTemperature(new Temperature());
+        //p.addTemperature(new Temperature());
 
         //Timestamp endDate = Timestamp.valueOf("2015-12-15 10:57:09");
         //p.addTemperature(t);
@@ -37,7 +38,8 @@ public class Just_to_test {
             
             Timestamp date = new Timestamp(new java.util.Date().getTime());
 
-            sd.insertSensor(new Sensor(Integer.toString(i), serial[i], date, "quality_of_air"));
+            //sd.insertSensor(new Sensor(Integer.toString(i), serial[i], date, "quality_of_air"));
+            //p.addTemperature(new Temperature(i, date, null, i));
         }
         
         
