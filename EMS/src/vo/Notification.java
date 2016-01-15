@@ -17,9 +17,26 @@ public class Notification  implements java.io.Serializable {
      private Date genaratedDate;
      private String message;
      private String priority;
+     boolean seenByAdmin;
+     boolean seenByMaintain;
+     boolean read;
+     boolean broken;
+     
      //private Set destinations = new HashSet(0);
 
     public Notification() {
+    }
+
+    public Notification(Integer notificationId, String sensorId, Date genaratedDate, String message, String priority, boolean seenByAdmin, boolean seenByMaintain, boolean read,boolean broken) {
+        this.notificationId = notificationId;
+        this.sensorId = sensorId;
+        this.genaratedDate = genaratedDate;
+        this.message = message;
+        this.priority = priority;
+        this.seenByAdmin = seenByAdmin;
+        this.seenByMaintain = seenByMaintain;
+        this.read = read;
+        this.broken=broken;
     }
 
 	
@@ -69,6 +86,38 @@ public class Notification  implements java.io.Serializable {
     
     public void setPriority(String priority) {
         this.priority = priority;
+    }
+
+    public boolean isSeenByAdmin() {
+        return seenByAdmin;
+    }
+
+    public void setSeenByAdmin(boolean seenByAdmin) {
+        this.seenByAdmin = seenByAdmin;
+    }
+
+    public boolean isSeenByMaintain() {
+        return seenByMaintain;
+    }
+
+    public void setSeenByMaintain(boolean seenByMaintain) {
+        this.seenByMaintain = seenByMaintain;
+    }
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
+
+    public boolean isBroken() {
+        return broken;
+    }
+
+    public void setBroken(boolean broken) {
+        this.broken = broken;
     }
     
 

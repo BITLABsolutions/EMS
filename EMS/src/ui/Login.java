@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import vo.Employee;
-
+import org.jasypt.util.password.StrongPasswordEncryptor;
 /**
  *
  * @author Malith
@@ -166,6 +166,8 @@ public class Login extends javax.swing.JFrame {
             // get the password
             String plainTextPassword = new String(pfield.getPassword());
 
+            
+            
             EmployeeDAO employeeDAO = new EmployeeDAO(myConn);
 
             // get the relevent user from the db according to the user ID
@@ -196,6 +198,7 @@ public class Login extends javax.swing.JFrame {
                 switch (accessPriviledge) {
                     case 1:
                         // show the home window
+                        System.out.println("logged in!!!!!!!!!!");
                         break;
                     case 2:
                         // show the home window
