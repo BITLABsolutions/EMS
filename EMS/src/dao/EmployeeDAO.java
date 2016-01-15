@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ui.PasswordUtils;
 import vo.Employee;
 
 /**
@@ -117,6 +118,29 @@ public class EmployeeDAO {
         }
     }
 
+    public Employee getEmployee(String employeeID) throws Exception {
+
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+        String query;
+        try {
+
+            query = "select * from employee where emp_id = ?";
+            myStmt = myConn.prepareStatement(query);
+            myStmt.setString(1, employeeID);
+            // execute statement
+            myRs = myStmt.executeQuery();
+
+            //load persons to a Employee List
+            if (myRs.next()) {
+                return convertRowToEmployee(myRs);
+            }
+            return null;
+        } finally {
+            close(myStmt, myRs);
+        }
+    }
+
     /**
      * add a new person
      *
@@ -201,6 +225,46 @@ public class EmployeeDAO {
         } finally {
             close(myStmt);
         }
+    }
+
+    /**
+     * Return true if user's password is authenticated.
+     *
+     * @param theUser
+     * @return
+     */
+    public boolean authenticate(Employee user) throws Exception {
+        boolean result = false;
+
+        String plainTextPassword = user.getPassword();
+
+        // get the encrypted password from database for this user
+        String encryptedPasswordFromDatabase = getEncrpytedPassword(user);
+
+        // compare the passwords
+        result = PasswordUtils.checkPassword(plainTextPassword, encryptedPasswordFromDatabase);
+
+        return result;
+    }
+
+    private String getEncrpytedPassword(Employee user) throws Exception {
+
+        String encryptedPassword = null;
+
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+
+        myStmt = myConn.prepareStatement("select password from employee where emp_id = ?");
+        myStmt.setInt(1, user.getEmp_id());
+
+        myRs = myStmt.executeQuery();
+
+        if (myRs.next()) {
+            encryptedPassword = myRs.getString("password");
+
+        }
+        return encryptedPassword;
+
     }
 
     /**
