@@ -1,5 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `emlls`;
-USE `emlls`;
+CREATE DATABASE  IF NOT EXISTS `ems`;
+USE `ems`;
 
 
 DROP TABLE IF EXISTS `employee`;

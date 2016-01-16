@@ -17,6 +17,7 @@ public class Location {
     private String nearest_junction;
     private double longitude;
     private double lattitude;
+    
 
     
     public Location(String sensor_id, String street, String nearest_junction, double longitude, double lattitude) {

@@ -35,7 +35,7 @@ public class SensorDAO {
         PreparedStatement myStat=null;
         try{
             myStat=myCon.prepareStatement("Insert into sensor (serial_no, installed_date, measure_types, sensor_id) values(?,?,?,?)");
-            myStat.setString(1, sensor.getSerial_num());
+            myStat.setString(1, sensor.getSerial_no());
             myStat.setDate(2, new java.sql.Date(sensor.getInstalled_date().getTime()));
             myStat.setString(3, sensor.getMeasure_type());
             myStat.setString(4, sensor.getSensor_id());
@@ -168,7 +168,8 @@ public class SensorDAO {
         String serial_no=result.getString(2);
         Date installed_date=result.getTimestamp(3);
         String measure_types = result.getString(4);
-        return new Sensor(sensor_id, serial_no, installed_date,measure_types);
+        int operational = result.getInt(5);
+        return new Sensor(sensor_id, serial_no, installed_date,measure_types, operational);
         
     }
     

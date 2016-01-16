@@ -19,13 +19,32 @@ public class Sensor {
     private String serial_no;
     private Date installed_date;
     private String measure_type;
+    private int operational;
 
-    public Sensor(String sensor_id, String serial_no, Date installed_date, String measure_type) {
+    public Sensor(String sensor_id, String serial_no, Date installed_date, String measure_type, int operational) {
         this.sensor_id = sensor_id;
         this.serial_no = serial_no;
         this.installed_date = installed_date;
         this.measure_type = measure_type;
+        this.operational = operational;
     }
+
+    public String getSerial_no() {
+        return serial_no;
+    }
+
+    public void setSerial_no(String serial_no) {
+        this.serial_no = serial_no;
+    }
+
+    public int getOperational() {
+        return operational;
+    }
+
+    public void setOperational(int operational) {
+        this.operational = operational;
+    }
+
 
     public String getMeasure_type() {
         return measure_type;
@@ -44,14 +63,7 @@ public class Sensor {
         this.sensor_id = sensor_id;
     }
 
-    public String getSerial_num() {
-        return serial_no;
-    }
-
-    public void setSerial_num(String serial_no) {
-        this.serial_no = serial_no;
-    }
-
+  
     public Date getInstalled_date() {
         return installed_date;
     }

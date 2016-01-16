@@ -695,7 +695,7 @@ public class PropertyView extends javax.swing.JDialog {
 
     private void loadSummary(Sensor s) {
         lblSensorID.setText(s.getSensor_id());
-        lblSerialNo.setText(s.getSerial_num());
+        lblSerialNo.setText(s.getSerial_no());
         lblLongitude.setText(String.valueOf(location.getLongitude()));
         lblLatitude.setText(String.valueOf(location.getLattitude()));
     }
