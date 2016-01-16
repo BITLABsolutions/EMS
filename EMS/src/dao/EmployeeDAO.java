@@ -338,9 +338,10 @@ public class EmployeeDAO {
         Statement myStmt = null;
         ResultSet myRs = null;
         try {
-            String query = "SELECT * FROM employee WHERE username = '" + username + "'";
+            String query = "SELECT * FROM employee WHERE username ='" + username + "'";
 
             myStmt = myConn.createStatement();
+           
             myRs = myStmt.executeQuery(query);
 
             if (myRs.next()) {
@@ -360,7 +361,7 @@ public class EmployeeDAO {
         Statement myStmt = null;
         ResultSet myRs = null;
         try {
-            String query = "SELECT * FROM employee WHERE nic = '" + nic + "'";
+            String query = "SELECT emp_id FROM employee WHERE nic = '" + nic + "'";
 
             myStmt = myConn.createStatement();
             myRs = myStmt.executeQuery(query);

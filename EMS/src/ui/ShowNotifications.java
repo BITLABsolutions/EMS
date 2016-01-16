@@ -33,6 +33,7 @@ public class ShowNotifications extends javax.swing.JDialog {
     NotificationDAO notificationDAO;
     SensorDAO sensorDAO;
     ShowNotifications s;
+    String priority;
 
     public ShowNotifications(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -56,6 +57,27 @@ public class ShowNotifications extends javax.swing.JDialog {
 
     }
 
+    public ShowNotifications(java.awt.Frame parent, boolean modal,String priority) {
+         super(parent, modal);
+        initComponents();
+        this.priority = priority;
+        try {
+            notificationDAO = new NotificationDAO(DbConnector.getInstance().getMyConn());
+            sensorDAO = new SensorDAO(DbConnector.getInstance().getMyConn());
+        } catch (IOException ex) {
+            Logger.getLogger(ShowNotifications.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ShowNotifications.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            createButtons(notificationDAO.getNotificationCount("all"), notificationDAO.getAllNotifications(), priority);
+        } catch (SQLException ex) {
+            Logger.getLogger(ShowNotifications.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        s=this;
+        
+    }
+    
     public void createButtons(int count, List<Notification> list, String priority) {
 
         Dimension d = new Dimension(jScrollPane1.getWidth(), 60 * count+100);

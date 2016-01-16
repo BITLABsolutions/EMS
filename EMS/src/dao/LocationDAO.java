@@ -128,6 +128,7 @@ public class LocationDAO {
         return result_list;
     }
     
+    
     public String getNearestJunction(String sensor_id) throws SQLException{
         PreparedStatement myStat = null;
         ResultSet result = null;
@@ -167,6 +168,51 @@ public class LocationDAO {
         }
         return null;
     }
+    
+    public int getBrokenSensorCount(String street, String junction){
+        PreparedStatement myStat = null;
+        ResultSet result = null;
+        
+        try{
+            String query="Select count(sensor_id) from location where street=? and nearest_junction = ? and functional = 0";
+            myStat=myCon.prepareStatement(query);
+            myStat.setString(1, street);
+            myStat.setString(2, junction);
+            result=myStat.executeQuery();
+            if(result.next()){
+                return Integer.parseInt(result.toString());
+            }
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(LocationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }        finally{
+            close(myStat, result);
+        }
+        return 0;
+    }
+    
+    public int getWorkingSensorCount(String street, String junction){
+        PreparedStatement myStat = null;
+        ResultSet result = null;
+        
+        try{
+            String query="Select count(sensor_id) from location where street=? and nearest_junction = ? and functional = 1";
+            myStat=myCon.prepareStatement(query);
+            myStat.setString(1, street);
+            myStat.setString(2, junction);
+            result=myStat.executeQuery();
+            if(result.next()){
+                return Integer.parseInt(result.toString());
+            }
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(LocationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }        finally{
+            close(myStat, result);
+        }
+        return 0;
+    }
+    
     public Location convertRowToALocation(ResultSet result) throws SQLException {
         String sensor_id=result.getString(1);
         String street=result.getString(2);

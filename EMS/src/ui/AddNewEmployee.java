@@ -7,11 +7,13 @@ package ui;
 
 import common.DbConnector;
 import dao.EmployeeDAO;
+import java.awt.Color;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import vo.Employee;
 
 /**
@@ -343,7 +345,9 @@ public class AddNewEmployee extends javax.swing.JDialog {
                         } else if (rbtn_system_admin.isSelected()) {
                             accessLevel = 1;
                         }
-                        Employee newEmployee = new Employee(0, txt_first_name.getText(), txt_last_name.getText(), txt_nic.getText(), txt_username.getText(), pfield_new.getText(), accessLevel, txt_street.getText(), txt_town.getText(), txt_phone.getText(), jLabel_sex.getText());
+                        StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+                        String encryptedpassword = passwordEncryptor.encryptPassword(pfield_new.getText());
+                        Employee newEmployee = new Employee(0, txt_first_name.getText(), txt_last_name.getText(), txt_nic.getText(), txt_username.getText(), encryptedpassword, accessLevel, txt_street.getText(), txt_town.getText(), txt_phone.getText(), jLabel_sex.getText());
 
                         try {
                             employeeDAO.addEmployee(newEmployee);
@@ -401,8 +405,10 @@ public class AddNewEmployee extends javax.swing.JDialog {
         try {
             if (employeeDAO.CheckUsernameAvailability(txt_username.getText())) {
                 label_username.setText("Username NOT available");
+                label_username.setForeground(Color.red);
             } else {
                 label_username.setText("Username available");
+                label_username.setForeground(Color.blue);
             }
         } catch (SQLException ex) {
             Logger.getLogger(AddNewEmployee.class.getName()).log(Level.SEVERE, null, ex);
